@@ -10,17 +10,22 @@ server_address = ('localhost', 10000)
 print(f"connecting to {server_address}")
 sock.connect(server_address)
 
-Filename = "App.js"
-filetok, file_extension = os.path.splitext(Filename)
+Filename = input("Nama File : ")
+filename, file_extension = os.path.splitext(Filename)
+
 sock.send(Filename.encode('utf-8'))
 sock.shutdown(socket.SHUT_WR)
 
-f = open("App.js", 'wb')  # open in binary
 data = sock.recv(1024)
-while(data):
-    f.write(data)
-    data = sock.recv(1024)
-print("File received with namefile App.js")
+if data == b'File not Exist!':
+    print("File not Exist!")
+else:
+    f = open(filename + "_client" + file_extension, 'wb')
+    while(data):
+        f.write(data)
+        data = sock.recv(1024)
+    print("File received with namefile App.js")
+    f.close()
+
 print("Success!")
-f.close()
 sock.close()

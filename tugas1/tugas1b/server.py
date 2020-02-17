@@ -1,5 +1,7 @@
 import sys
 import socket
+import os
+
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the port
@@ -21,8 +23,13 @@ while True:
             break
         print(f"received {data}")
         filename += data
-    print("Sending: " + filename)
-    myfile = open(filename, "rb")
-    connection.send(myfile.read())
+    if os.path.isfile(filename):
+        print("Sending: " + filename)
+        myfile = open(filename, "rb")
+        connection.send(myfile.read())
+    else:
+        print("File not Found!")
+        connection.send(myfile.read())
+
     # Clean up the connection
     connection.close()
