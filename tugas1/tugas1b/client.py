@@ -24,7 +24,7 @@ else:
     while(data):
         f.write(data)
         data = sock.recv(1024)
-    print("File received with namefile App.js")
+    print("File received with namefile " + filename + "_client" + file_extension)
     f.close()
 
 print("Success!")
