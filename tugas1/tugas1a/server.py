@@ -15,7 +15,7 @@ while True:
 	connection, client_address = sock.accept()
 	print(f"connection from {client_address}")
 	# Receive the data in small chunks and retransmit it
-	filename = open("Perulangan.pdf", 'wb')  # open in binary
+	filename = open("hasil.pdf", 'wb')  # open in binary
 	while True:
 		data = connection.recv(2048)
 		if not data:
