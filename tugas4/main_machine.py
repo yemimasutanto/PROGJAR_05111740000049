@@ -1,4 +1,4 @@
-from list import File
+from file import File
 import json
 import logging
 

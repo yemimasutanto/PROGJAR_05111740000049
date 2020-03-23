@@ -1,5 +1,6 @@
 import sys
 import socket
+import base64
 import os
 
 # Create a TCP/IP socket
@@ -10,22 +11,26 @@ server_address = ('localhost', 10000)
 print(f"connecting to {server_address}")
 sock.connect(server_address)
 
-Filename = input("Input File Name: ")
+try:
+    Filename = input("Input File Name: ")
 
-Data="download "+Filename
-sock.send(Data.encode('utf-8'))
-sock.shutdown(socket.SHUT_WR)
+    Data="download "+Filename
+    sock.send(Data.encode('utf-8'))
+    sock.shutdown(socket.SHUT_WR)
 
-data = sock.recv(1024)
-if data == b'File not Exist':
-    print("File tidak ditemukan!")
-else:
-    f = open("client/"+Filename, 'wb')  # open in binary
-    while (data):
-        f.write(data)
-        data = sock.recv(1024)
-    print("File Berhasil diunduh!")
-    f.close()
+    data = sock.recv(1024)
+    if data == b'File not Exist':
+        print("File tidak ditemukan!")
+    else:
+        print("File detect: "+Filename)
+        print("Downloading File....")
+        f = open("client/" + "new_"+ Filename, 'wb')  # open in binary
+        while (data):
+            f.write(data)
+            data = sock.recv(1024)
+        print("OK")
+        f.close()
 
-print("Closing.....")
-sock.close()
+finally:
+    print("\nClosing connection")
+    sock.close()

@@ -10,20 +10,24 @@ server_address = ('localhost', 10000)
 print(f"connecting to {server_address}")
 sock.connect(server_address)
 
-Filename = input("Input File Name: ")
-if os.path.isfile("client/" + Filename):
-    Kirim = "upload " + Filename
-    print("Sending: " + Filename)
-    myfile = open("client/" + Filename, "rb")
-    Filename = "AOE" + Kirim
-    Fil8 = Filename.encode("utf-8")
-    datasend = myfile.read() + Fil8
-    sock.send(datasend)
-    sock.shutdown(socket.SHUT_WR)
-    hasil = sock.recv(10).decode()
-    print(hasil)
-else:
-    print("File Tidak ditemukan!")
+try:
+    Filename = input("Input File Name: ")
+    if os.path.isfile("client/" + Filename):
+        Request = "upload " + Filename
+        print("File detect: " + Filename)
+        f = open("client/" + Filename, "rb")
+        Filename = "AOE" + Request
+        Fil8 = Filename.encode("utf-8")
+        datasend = f.read() + Fil8
 
-print("Closing........")
-sock.close()
+        print("Sending File.....")
+        sock.send(datasend)
+        sock.shutdown(socket.SHUT_WR)
+        data = sock.recv(10).decode()
+        print(data)
+    else:
+        print("File Tidak ditemukan!")
+
+finally:
+    print("\nClosing connnection")
+    sock.close()
