@@ -34,7 +34,6 @@ class HttpServer:
 		requests = data.split("\r\n")
 		baris = requests[0]
 
-		print(baris)
 		j = baris.split(" ")
 		try:
 			method=j[0].upper().strip()
@@ -47,23 +46,18 @@ class HttpServer:
 			return self.response(400,'Bad Request','',{})
 	def http_get(self,object_address):
 		files = glob('./*')
-		thedir='.'
-		if thedir+object_address not in files:
+
+		if object_address != "/":
 			return self.response(404,'Not Found','',{})
-		fp = open(thedir+object_address,'r')
-		isi = fp.read()
-		
-		fext = os.path.splitext(thedir+object_address)[1]
-		content_type = self.types[fext]
+		isi = "<h1> Server HTTP </h1>"
+
+		content_type = "text/html"
 		
 		headers={}
 		headers['Content-type']=content_type
 		
 		return self.response(200,'OK',isi,headers)
-		
-			 	
-#>>> import os.path
-#>>> ext = os.path.splitext('/ak/52.png')
+
 
 if __name__=="__main__":
 	httpserver = HttpServer()
