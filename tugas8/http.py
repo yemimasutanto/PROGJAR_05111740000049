@@ -12,7 +12,6 @@ class HttpServer:
         self.types['.jpg']='image/jpeg'
         self.types['.txt']='text/plain'
         self.types['.html']='text/html'
-
     def response(self,kode=404,message='Not Found',messagebody='',headers={}):
         tanggal = datetime.now().strftime('%c')
         resp=[]
@@ -30,7 +29,7 @@ class HttpServer:
             response_str="{}{}" . format(response_str,i)
         return response_str
 
-    def process(self,data):
+    def proses(self,data):
         requests = data.split("\r\n")
         baris = requests[0]
         all_headers = [n for n in requests[1:] if n != '']
@@ -52,11 +51,10 @@ class HttpServer:
             return self.response(400,'Bad Request','',{})
 
     def http_get(self,object_address, headers):
-        # files = glob('./*')
         if object_address == "/":
-            isi = "<h1>SERVER HTTP</h1>"
-        elif object_address == "/sending.html":
-            fp = open("sending.html", 'r')
+            isi = "<h3>SERVER HTTP</h3>"
+        elif object_address == "/sendme.html":
+            fp = open("sendme.html", 'r')
             isi = fp.read()
         else:
             return self.response(404,'Not Found','',{})
@@ -71,5 +69,5 @@ class HttpServer:
         content_type = "text/html"
         headers ={}
         headers['Content-type'] = content_type
-        isi = "<h1>"+hasil[1]+"</h1>"
+        isi = "<h3>Isi Pesanmu : "+hasil[1]+"</h3>"
         return self.response(200,'OK',isi,headers)

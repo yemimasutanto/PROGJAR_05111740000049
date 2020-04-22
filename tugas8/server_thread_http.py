@@ -20,10 +20,10 @@ class ProcessTheClient(threading.Thread):
 		d = data.decode()
 		rcv=rcv+d
 		print(rcv)
-		logging.warning("data from client: {}".format(rcv))
+		logging.warning("Data from client: {}".format(rcv))
 		hasil = httpserver.proses(rcv)
 		hasil = hasil + "\r\n\r\n"
-		logging.warning("reply to client: {}".format(hasil))
+		logging.warning("Reply to client: {}".format(hasil))
 		self.connection.sendall(hasil.encode())
 		self.connection.close()
 		print("close")
@@ -40,7 +40,7 @@ class Server(threading.Thread):
 		self.my_socket.listen(1)
 		while True:
 			self.connection, self.client_address = self.my_socket.accept()
-			logging.warning("connection from {}".format(self.client_address))
+			logging.warning("Connection from {}".format(self.client_address))
 
 			clt = ProcessTheClient(self.connection, self.client_address)
 			clt.start()
